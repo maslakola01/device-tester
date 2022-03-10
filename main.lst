@@ -1,0 +1,800 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	UART_init
+  18               	UART_init:
+  19               	.LFB7:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 8AB1      		in r24,42-32
+  25 0002 8861      		ori r24,lo8(24)
+  26 0004 8AB9      		out 42-32,r24
+  27               	.LM3:
+  28 0006 80B5      		in r24,64-32
+  29 0008 8668      		ori r24,lo8(-122)
+  30 000a 80BD      		out 64-32,r24
+  31               	.LM4:
+  32 000c 83E3      		ldi r24,lo8(51)
+  33 000e 89B9      		out 41-32,r24
+  34               	.LM5:
+  35 0010 10BC      		out 64-32,__zero_reg__
+  36               	/* epilogue start */
+  37               	.LM6:
+  38 0012 0895      		ret
+  39               	.LFE7:
+  41               	.global	SPI_Init_Master
+  43               	SPI_Init_Master:
+  44               	.LFB8:
+  45               	.LM7:
+  46               	/* prologue: function */
+  47               	/* frame size = 0 */
+  48               	.LM8:
+  49 0014 87B3      		in r24,55-32
+  50 0016 806B      		ori r24,lo8(-80)
+  51 0018 87BB      		out 55-32,r24
+  52               	.LM9:
+  53 001a BE98      		cbi 55-32,6
+  54               	.LM10:
+  55 001c C49A      		sbi 56-32,4
+  56               	.LM11:
+  57 001e 8DB1      		in r24,45-32
+  58 0020 8165      		ori r24,lo8(81)
+  59 0022 8DB9      		out 45-32,r24
+  60               	/* epilogue start */
+  61               	.LM12:
+  62 0024 0895      		ret
+  63               	.LFE8:
+  65               	.global	SPI_Write_Master
+  67               	SPI_Write_Master:
+  68               	.LFB9:
+  69               	.LM13:
+  70               	.LVL0:
+  71               	/* prologue: function */
+  72               	/* frame size = 0 */
+  73               	.LM14:
+  74 0026 8FB9      		out 47-32,r24
+  75               	.L6:
+  76               	.LM15:
+  77 0028 779B      		sbis 46-32,7
+  78 002a 00C0      		rjmp .L6
+  79               	.LM16:
+  80 002c 8FB1      		in r24,47-32
+  81               	.LVL1:
+  82               	.LVL2:
+  83               	/* epilogue start */
+  84               	.LM17:
+  85 002e 0895      		ret
+  86               	.LFE9:
+  88               	.global	SPI_Read_Master
+  90               	SPI_Read_Master:
+  91               	.LFB10:
+  92               	.LM18:
+  93               	/* prologue: function */
+  94               	/* frame size = 0 */
+  95               	.LM19:
+  96 0030 8FEF      		ldi r24,lo8(-1)
+  97 0032 8FB9      		out 47-32,r24
+  98               	.L10:
+  99               	.LM20:
+ 100 0034 779B      		sbis 46-32,7
+ 101 0036 00C0      		rjmp .L10
+ 102               	.LM21:
+ 103 0038 8FB1      		in r24,47-32
+ 104               	/* epilogue start */
+ 105               	.LM22:
+ 106 003a 0895      		ret
+ 107               	.LFE10:
+ 109               	.global	UART_TxChar
+ 111               	UART_TxChar:
+ 112               	.LFB11:
+ 113               	.LM23:
+ 114               	/* prologue: function */
+ 115               	/* frame size = 0 */
+ 116               	.LVL3:
+ 117               	.L14:
+ 118               	.LM24:
+ 119 003c 5D9B      		sbis 43-32,5
+ 120 003e 00C0      		rjmp .L14
+ 121               	.LM25:
+ 122 0040 8CB9      		out 44-32,r24
+ 123               	/* epilogue start */
+ 124               	.LM26:
+ 125 0042 0895      		ret
+ 126               	.LFE11:
+ 128               	.global	Chose_Channel
+ 130               	Chose_Channel:
+ 131               	.LFB12:
+ 132               	.LM27:
+ 133               	.LVL4:
+ 134               	/* prologue: function */
+ 135               	/* frame size = 0 */
+ 136               	.LM28:
+ 137 0044 8330      		cpi r24,lo8(3)
+ 138 0046 01F0      		breq .L22
+ 139 0048 8430      		cpi r24,lo8(4)
+ 140 004a 00F4      		brsh .L27
+ 141 004c 8130      		cpi r24,lo8(1)
+ 142 004e 01F0      		breq .L20
+ 143 0050 8230      		cpi r24,lo8(2)
+ 144 0052 00F4      		brsh .L21
+ 145 0054 00C0      		rjmp .L35
+ 146               	.L27:
+ 147 0056 8530      		cpi r24,lo8(5)
+ 148 0058 01F0      		breq .L24
+ 149 005a 8530      		cpi r24,lo8(5)
+ 150 005c 00F0      		brlo .L23
+ 151 005e 8630      		cpi r24,lo8(6)
+ 152 0060 01F0      		breq .L25
+ 153 0062 8730      		cpi r24,lo8(7)
+ 154 0064 01F4      		brne .L28
+ 155 0066 00C0      		rjmp .L36
+ 156               	.L35:
+ 157               	.LM29:
+ 158 0068 86E0      		ldi r24,lo8(6)
+ 159               	.LVL5:
+ 160 006a 00C0      		rjmp .L32
+ 161               	.LVL6:
+ 162               	.L20:
+ 163               	.LM30:
+ 164 006c 86E0      		ldi r24,lo8(6)
+ 165               	.LVL7:
+ 166 006e 00C0      		rjmp .L33
+ 167               	.LVL8:
+ 168               	.L21:
+ 169               	.LM31:
+ 170 0070 86E0      		ldi r24,lo8(6)
+ 171               	.LVL9:
+ 172 0072 00C0      		rjmp .L34
+ 173               	.LVL10:
+ 174               	.L22:
+ 175               	.LM32:
+ 176 0074 86E0      		ldi r24,lo8(6)
+ 177               	.LVL11:
+ 178 0076 8093 0000 		sts count1,r24
+ 179               	.LM33:
+ 180 007a 80EC      		ldi r24,lo8(-64)
+ 181 007c 00C0      		rjmp .L30
+ 182               	.LVL12:
+ 183               	.L23:
+ 184               	.LM34:
+ 185 007e 87E0      		ldi r24,lo8(7)
+ 186               	.LVL13:
+ 187               	.L32:
+ 188 0080 8093 0000 		sts count1,r24
+ 189               	.LM35:
+ 190 0084 1092 0000 		sts count2,__zero_reg__
+ 191 0088 00C0      		rjmp .L31
+ 192               	.LVL14:
+ 193               	.L24:
+ 194               	.LM36:
+ 195 008a 87E0      		ldi r24,lo8(7)
+ 196               	.LVL15:
+ 197               	.L33:
+ 198 008c 8093 0000 		sts count1,r24
+ 199               	.LM37:
+ 200 0090 80E4      		ldi r24,lo8(64)
+ 201 0092 00C0      		rjmp .L30
+ 202               	.LVL16:
+ 203               	.L25:
+ 204               	.LM38:
+ 205 0094 87E0      		ldi r24,lo8(7)
+ 206               	.LVL17:
+ 207               	.L34:
+ 208 0096 8093 0000 		sts count1,r24
+ 209               	.LM39:
+ 210 009a 80E8      		ldi r24,lo8(-128)
+ 211               	.L30:
+ 212 009c 8093 0000 		sts count2,r24
+ 213               	.L31:
+ 214               	.LM40:
+ 215 00a0 1092 0000 		sts count3,__zero_reg__
+ 216 00a4 0895      		ret
+ 217               	.LVL18:
+ 218               	.L36:
+ 219               	.LM41:
+ 220 00a6 8093 0000 		sts count1,r24
+ 221               	.LM42:
+ 222 00aa 80EC      		ldi r24,lo8(-64)
+ 223               	.LVL19:
+ 224 00ac 8093 0000 		sts count2,r24
+ 225               	.LM43:
+ 226 00b0 1092 0000 		sts count3,__zero_reg__
+ 227               	.LVL20:
+ 228               	.L28:
+ 229 00b4 0895      		ret
+ 230               	.LFE12:
+ 232               	.global	change_byte
+ 234               	change_byte:
+ 235               	.LFB13:
+ 236               	.LM44:
+ 237               	.LVL21:
+ 238               	/* prologue: function */
+ 239               	/* frame size = 0 */
+ 240               	.LM45:
+ 241 00b6 8F70      		andi r24,lo8(15)
+ 242               	.LVL22:
+ 243               	/* epilogue start */
+ 244 00b8 0895      		ret
+ 245               	.LFE13:
+ 247               	.global	UART_SendString
+ 249               	UART_SendString:
+ 250               	.LFB14:
+ 251               	.LM46:
+ 252               	/* prologue: function */
+ 253               	/* frame size = 0 */
+ 254               	.LVL23:
+ 255               	.L40:
+ 256               	.LBB58:
+ 257               	.LBB59:
+ 258               	.LM47:
+ 259 00ba 5D9B      		sbis 43-32,5
+ 260 00bc 00C0      		rjmp .L40
+ 261               	.LM48:
+ 262 00be 9CB9      		out 44-32,r25
+ 263               	.LVL24:
+ 264               	.L41:
+ 265               	.LBE59:
+ 266               	.LBE58:
+ 267               	.LBB60:
+ 268               	.LBB61:
+ 269               	.LM49:
+ 270 00c0 5D9B      		sbis 43-32,5
+ 271 00c2 00C0      		rjmp .L41
+ 272               	.LM50:
+ 273 00c4 8CB9      		out 44-32,r24
+ 274               	.L42:
+ 275               	.LBE61:
+ 276               	.LBE60:
+ 277               	.LBB62:
+ 278               	.LBB63:
+ 279               	.LM51:
+ 280 00c6 5D9B      		sbis 43-32,5
+ 281 00c8 00C0      		rjmp .L42
+ 282               	.LM52:
+ 283 00ca 8AE0      		ldi r24,lo8(10)
+ 284               	.LVL25:
+ 285 00cc 8CB9      		out 44-32,r24
+ 286               	/* epilogue start */
+ 287               	.LBE63:
+ 288               	.LBE62:
+ 289               	.LM53:
+ 290 00ce 0895      		ret
+ 291               	.LFE14:
+ 293               	.global	FirstDeviceEnable
+ 295               	FirstDeviceEnable:
+ 296               	.LFB15:
+ 297               	.LM54:
+ 298               	/* prologue: function */
+ 299               	/* frame size = 0 */
+ 300               	.LM55:
+ 301 00d0 A898      		cbi 53-32,0
+ 302               	/* epilogue start */
+ 303               	.LM56:
+ 304 00d2 0895      		ret
+ 305               	.LFE15:
+ 307               	.global	SecondDeviceEnable
+ 309               	SecondDeviceEnable:
+ 310               	.LFB16:
+ 311               	.LM57:
+ 312               	/* prologue: function */
+ 313               	/* frame size = 0 */
+ 314               	.LM58:
+ 315 00d4 AF98      		cbi 53-32,7
+ 316               	/* epilogue start */
+ 317               	.LM59:
+ 318 00d6 0895      		ret
+ 319               	.LFE16:
+ 321               	.global	FirstDeviceDisable
+ 323               	FirstDeviceDisable:
+ 324               	.LFB17:
+ 325               	.LM60:
+ 326               	/* prologue: function */
+ 327               	/* frame size = 0 */
+ 328               	.LM61:
+ 329 00d8 A89A      		sbi 53-32,0
+ 330               	/* epilogue start */
+ 331               	.LM62:
+ 332 00da 0895      		ret
+ 333               	.LFE17:
+ 335               	.global	SecondDeviceDisable
+ 337               	SecondDeviceDisable:
+ 338               	.LFB18:
+ 339               	.LM63:
+ 340               	/* prologue: function */
+ 341               	/* frame size = 0 */
+ 342               	.LM64:
+ 343 00dc AF9A      		sbi 53-32,7
+ 344               	/* epilogue start */
+ 345               	.LM65:
+ 346 00de 0895      		ret
+ 347               	.LFE18:
+ 349               	.global	SendFirstData
+ 351               	SendFirstData:
+ 352               	.LFB19:
+ 353               	.LM66:
+ 354 00e0 EF92      		push r14
+ 355 00e2 FF92      		push r15
+ 356 00e4 0F93      		push r16
+ 357 00e6 1F93      		push r17
+ 358 00e8 CF93      		push r28
+ 359 00ea DF93      		push r29
+ 360               	/* prologue: function */
+ 361               	/* frame size = 0 */
+ 362               	.LM67:
+ 363 00ec 00E0      		ldi r16,lo8(0)
+ 364 00ee 10E0      		ldi r17,hi8(0)
+ 365               	.LVL26:
+ 366 00f0 C0E0      		ldi r28,lo8(0)
+ 367 00f2 D0E0      		ldi r29,hi8(0)
+ 368               	.LVL27:
+ 369 00f4 FF24      		clr r15
+ 370               	.LBB64:
+ 371               	.LBB65:
+ 372               	.LBB66:
+ 373               	.LM68:
+ 374 00f6 9AE0      		ldi r25,lo8(10)
+ 375 00f8 E92E      		mov r14,r25
+ 376               	.LVL28:
+ 377               	.L62:
+ 378               	.LBE66:
+ 379               	.LBE65:
+ 380               	.LM69:
+ 381 00fa 8F2D      		mov r24,r15
+ 382 00fc 0E94 0000 		call Chose_Channel
+ 383               	.LVL29:
+ 384               	.LBB68:
+ 385               	.LBB69:
+ 386               	.LM70:
+ 387 0100 A898      		cbi 53-32,0
+ 388               	.LBE69:
+ 389               	.LBE68:
+ 390               	.LM71:
+ 391 0102 8091 0000 		lds r24,count1
+ 392               	.LBB70:
+ 393               	.LBB71:
+ 394               	.LM72:
+ 395 0106 8FB9      		out 47-32,r24
+ 396               	.L56:
+ 397               	.LM73:
+ 398 0108 779B      		sbis 46-32,7
+ 399 010a 00C0      		rjmp .L56
+ 400               	.LM74:
+ 401 010c 8FB1      		in r24,47-32
+ 402               	.LVL30:
+ 403               	.LBE71:
+ 404               	.LBE70:
+ 405               	.LM75:
+ 406 010e 8091 0000 		lds r24,count2
+ 407               	.LVL31:
+ 408               	.LBB72:
+ 409               	.LBB73:
+ 410               	.LM76:
+ 411 0112 8FB9      		out 47-32,r24
+ 412               	.L57:
+ 413               	.LM77:
+ 414 0114 779B      		sbis 46-32,7
+ 415 0116 00C0      		rjmp .L57
+ 416               	.LM78:
+ 417 0118 9FB1      		in r25,47-32
+ 418               	.LVL32:
+ 419               	.LBE73:
+ 420               	.LBE72:
+ 421               	.LM79:
+ 422 011a 9093 0000 		sts count2_s,r25
+ 423               	.LM80:
+ 424 011e 8091 0000 		lds r24,count3
+ 425               	.LBB74:
+ 426               	.LBB75:
+ 427               	.LM81:
+ 428 0122 8FB9      		out 47-32,r24
+ 429               	.L58:
+ 430               	.LM82:
+ 431 0124 779B      		sbis 46-32,7
+ 432 0126 00C0      		rjmp .L58
+ 433               	.LM83:
+ 434 0128 8FB1      		in r24,47-32
+ 435               	.LVL33:
+ 436               	.LBE75:
+ 437               	.LBE74:
+ 438               	.LM84:
+ 439 012a 8093 0000 		sts count3_s,r24
+ 440               	.LBB76:
+ 441               	.LBB77:
+ 442               	.LM85:
+ 443 012e A89A      		sbi 53-32,0
+ 444               	.LBE77:
+ 445               	.LBE76:
+ 446               	.LBB78:
+ 447               	.LBB79:
+ 448               	.LM86:
+ 449 0130 9F70      		andi r25,lo8(15)
+ 450               	.LVL34:
+ 451               	.L59:
+ 452               	.LBE79:
+ 453               	.LBE78:
+ 454               	.LBB80:
+ 455               	.LBB81:
+ 456               	.LM87:
+ 457 0132 5D9B      		sbis 43-32,5
+ 458 0134 00C0      		rjmp .L59
+ 459               	.LM88:
+ 460 0136 9CB9      		out 44-32,r25
+ 461               	.L60:
+ 462               	.LBE81:
+ 463               	.LBE80:
+ 464               	.LBB82:
+ 465               	.LBB83:
+ 466               	.LM89:
+ 467 0138 5D9B      		sbis 43-32,5
+ 468 013a 00C0      		rjmp .L60
+ 469               	.LM90:
+ 470 013c 8CB9      		out 44-32,r24
+ 471               	.L61:
+ 472               	.LBE83:
+ 473               	.LBE82:
+ 474               	.LBB84:
+ 475               	.LBB67:
+ 476               	.LM91:
+ 477 013e 5D9B      		sbis 43-32,5
+ 478 0140 00C0      		rjmp .L61
+ 479               	.LM92:
+ 480 0142 ECB8      		out 44-32,r14
+ 481               	.LBE67:
+ 482               	.LBE84:
+ 483               	.LM93:
+ 484 0144 090F      		add r16,r25
+ 485 0146 111D      		adc r17,__zero_reg__
+ 486               	.LM94:
+ 487 0148 C80F      		add r28,r24
+ 488 014a D11D      		adc r29,__zero_reg__
+ 489 014c F394      		inc r15
+ 490               	.LM95:
+ 491 014e 88E0      		ldi r24,lo8(8)
+ 492               	.LVL35:
+ 493 0150 F816      		cp r15,r24
+ 494 0152 01F4      		brne .L62
+ 495               	.LBE64:
+ 496               	.LM96:
+ 497 0154 902F      		mov r25,r16
+ 498 0156 8827      		clr r24
+ 499 0158 8C0F      		add r24,r28
+ 500 015a 9D1F      		adc r25,r29
+ 501 015c 9093 0000 		sts (sum_first_device)+1,r25
+ 502 0160 8093 0000 		sts sum_first_device,r24
+ 503               	/* epilogue start */
+ 504               	.LM97:
+ 505 0164 DF91      		pop r29
+ 506 0166 CF91      		pop r28
+ 507               	.LVL36:
+ 508 0168 1F91      		pop r17
+ 509 016a 0F91      		pop r16
+ 510               	.LVL37:
+ 511 016c FF90      		pop r15
+ 512 016e EF90      		pop r14
+ 513 0170 0895      		ret
+ 514               	.LFE19:
+ 516               	.global	SendSecondData
+ 518               	SendSecondData:
+ 519               	.LFB20:
+ 520               	.LM98:
+ 521 0172 EF92      		push r14
+ 522 0174 FF92      		push r15
+ 523 0176 0F93      		push r16
+ 524 0178 1F93      		push r17
+ 525 017a CF93      		push r28
+ 526 017c DF93      		push r29
+ 527               	/* prologue: function */
+ 528               	/* frame size = 0 */
+ 529               	.LM99:
+ 530 017e 00E0      		ldi r16,lo8(0)
+ 531 0180 10E0      		ldi r17,hi8(0)
+ 532               	.LVL38:
+ 533 0182 C0E0      		ldi r28,lo8(0)
+ 534 0184 D0E0      		ldi r29,hi8(0)
+ 535               	.LVL39:
+ 536 0186 FF24      		clr r15
+ 537               	.LBB85:
+ 538               	.LBB86:
+ 539               	.LBB87:
+ 540               	.LM100:
+ 541 0188 3AE0      		ldi r19,lo8(10)
+ 542 018a E32E      		mov r14,r19
+ 543               	.LVL40:
+ 544               	.L78:
+ 545               	.LBE87:
+ 546               	.LBE86:
+ 547               	.LM101:
+ 548 018c 8F2D      		mov r24,r15
+ 549 018e 0E94 0000 		call Chose_Channel
+ 550               	.LVL41:
+ 551               	.LBB89:
+ 552               	.LBB90:
+ 553               	.LM102:
+ 554 0192 AF98      		cbi 53-32,7
+ 555               	.LBE90:
+ 556               	.LBE89:
+ 557               	.LM103:
+ 558 0194 8091 0000 		lds r24,count1
+ 559               	.LBB91:
+ 560               	.LBB92:
+ 561               	.LM104:
+ 562 0198 8FB9      		out 47-32,r24
+ 563               	.L72:
+ 564               	.LM105:
+ 565 019a 779B      		sbis 46-32,7
+ 566 019c 00C0      		rjmp .L72
+ 567               	.LM106:
+ 568 019e 8FB1      		in r24,47-32
+ 569               	.LVL42:
+ 570               	.LBE92:
+ 571               	.LBE91:
+ 572               	.LM107:
+ 573 01a0 8091 0000 		lds r24,count2
+ 574               	.LVL43:
+ 575               	.LBB93:
+ 576               	.LBB94:
+ 577               	.LM108:
+ 578 01a4 8FB9      		out 47-32,r24
+ 579               	.L73:
+ 580               	.LM109:
+ 581 01a6 779B      		sbis 46-32,7
+ 582 01a8 00C0      		rjmp .L73
+ 583               	.LM110:
+ 584 01aa 9FB1      		in r25,47-32
+ 585               	.LVL44:
+ 586               	.LBE94:
+ 587               	.LBE93:
+ 588               	.LM111:
+ 589 01ac 9093 0000 		sts count2_s,r25
+ 590               	.LM112:
+ 591 01b0 8091 0000 		lds r24,count3
+ 592               	.LBB95:
+ 593               	.LBB96:
+ 594               	.LM113:
+ 595 01b4 8FB9      		out 47-32,r24
+ 596               	.L74:
+ 597               	.LM114:
+ 598 01b6 779B      		sbis 46-32,7
+ 599 01b8 00C0      		rjmp .L74
+ 600               	.LM115:
+ 601 01ba 8FB1      		in r24,47-32
+ 602               	.LVL45:
+ 603               	.LBE96:
+ 604               	.LBE95:
+ 605               	.LM116:
+ 606 01bc 8093 0000 		sts count3_s,r24
+ 607               	.LBB97:
+ 608               	.LBB98:
+ 609               	.LM117:
+ 610 01c0 AF9A      		sbi 53-32,7
+ 611               	.LBE98:
+ 612               	.LBE97:
+ 613               	.LBB99:
+ 614               	.LBB100:
+ 615               	.LM118:
+ 616 01c2 9F70      		andi r25,lo8(15)
+ 617               	.LVL46:
+ 618               	.L75:
+ 619               	.LBE100:
+ 620               	.LBE99:
+ 621               	.LBB101:
+ 622               	.LBB102:
+ 623               	.LM119:
+ 624 01c4 5D9B      		sbis 43-32,5
+ 625 01c6 00C0      		rjmp .L75
+ 626               	.LM120:
+ 627 01c8 9CB9      		out 44-32,r25
+ 628               	.L76:
+ 629               	.LBE102:
+ 630               	.LBE101:
+ 631               	.LBB103:
+ 632               	.LBB104:
+ 633               	.LM121:
+ 634 01ca 5D9B      		sbis 43-32,5
+ 635 01cc 00C0      		rjmp .L76
+ 636               	.LM122:
+ 637 01ce 8CB9      		out 44-32,r24
+ 638               	.L77:
+ 639               	.LBE104:
+ 640               	.LBE103:
+ 641               	.LBB105:
+ 642               	.LBB88:
+ 643               	.LM123:
+ 644 01d0 5D9B      		sbis 43-32,5
+ 645 01d2 00C0      		rjmp .L77
+ 646               	.LM124:
+ 647 01d4 ECB8      		out 44-32,r14
+ 648               	.LBE88:
+ 649               	.LBE105:
+ 650               	.LM125:
+ 651 01d6 090F      		add r16,r25
+ 652 01d8 111D      		adc r17,__zero_reg__
+ 653               	.LM126:
+ 654 01da C80F      		add r28,r24
+ 655 01dc D11D      		adc r29,__zero_reg__
+ 656 01de F394      		inc r15
+ 657               	.LM127:
+ 658 01e0 88E0      		ldi r24,lo8(8)
+ 659               	.LVL47:
+ 660 01e2 F816      		cp r15,r24
+ 661 01e4 01F4      		brne .L78
+ 662               	.LBE85:
+ 663               	.LM128:
+ 664 01e6 902F      		mov r25,r16
+ 665 01e8 8827      		clr r24
+ 666 01ea 8C0F      		add r24,r28
+ 667 01ec 9D1F      		adc r25,r29
+ 668 01ee 9093 0000 		sts (sum_second_device)+1,r25
+ 669 01f2 8093 0000 		sts sum_second_device,r24
+ 670               	/* epilogue start */
+ 671               	.LM129:
+ 672 01f6 DF91      		pop r29
+ 673 01f8 CF91      		pop r28
+ 674               	.LVL48:
+ 675 01fa 1F91      		pop r17
+ 676 01fc 0F91      		pop r16
+ 677               	.LVL49:
+ 678 01fe FF90      		pop r15
+ 679 0200 EF90      		pop r14
+ 680 0202 0895      		ret
+ 681               	.LFE20:
+ 683               	.global	main
+ 685               	main:
+ 686               	.LFB21:
+ 687               	.LM130:
+ 688               	/* prologue: function */
+ 689               	/* frame size = 0 */
+ 690               	.LM131:
+ 691 0204 A09A      		sbi 52-32,0
+ 692               	.LM132:
+ 693 0206 A79A      		sbi 52-32,7
+ 694               	.LM133:
+ 695 0208 A89A      		sbi 53-32,0
+ 696               	.LM134:
+ 697 020a AF9A      		sbi 53-32,7
+ 698               	.LM135:
+ 699 020c 0E94 0000 		call UART_init
+ 700               	.LM136:
+ 701 0210 0E94 0000 		call SPI_Init_Master
+ 702               	.L88:
+ 703               	.LBB106:
+ 704               	.LBB107:
+ 705               	.LM137:
+ 706 0214 5D9B      		sbis 43-32,5
+ 707 0216 00C0      		rjmp .L88
+ 708               	.LM138:
+ 709 0218 8FEF      		ldi r24,lo8(-1)
+ 710 021a 8CB9      		out 44-32,r24
+ 711               	.L89:
+ 712               	.LBE107:
+ 713               	.LBE106:
+ 714               	.LBB108:
+ 715               	.LBB109:
+ 716               	.LM139:
+ 717 021c 5D9B      		sbis 43-32,5
+ 718 021e 00C0      		rjmp .L89
+ 719               	.LM140:
+ 720 0220 8AE0      		ldi r24,lo8(10)
+ 721 0222 8CB9      		out 44-32,r24
+ 722               	.L90:
+ 723               	.LBE109:
+ 724               	.LBE108:
+ 725               	.LBB110:
+ 726               	.LBB111:
+ 727               	.LM141:
+ 728 0224 5D9B      		sbis 43-32,5
+ 729 0226 00C0      		rjmp .L90
+ 730               	.LM142:
+ 731 0228 80E1      		ldi r24,lo8(16)
+ 732 022a 8CB9      		out 44-32,r24
+ 733               	.L91:
+ 734               	.LBE111:
+ 735               	.LBE110:
+ 736               	.LBB112:
+ 737               	.LBB113:
+ 738               	.LM143:
+ 739 022c 5D9B      		sbis 43-32,5
+ 740 022e 00C0      		rjmp .L91
+ 741               	.LM144:
+ 742 0230 8AE0      		ldi r24,lo8(10)
+ 743 0232 8CB9      		out 44-32,r24
+ 744               	.LBE113:
+ 745               	.LBE112:
+ 746               	.LM145:
+ 747 0234 0E94 0000 		call SendFirstData
+ 748               	.LM146:
+ 749 0238 A89A      		sbi 53-32,0
+ 750               	.LM147:
+ 751 023a AF9A      		sbi 53-32,7
+ 752               	.LM148:
+ 753 023c 0E94 0000 		call SendSecondData
+ 754               	.LM149:
+ 755 0240 8091 0000 		lds r24,sum_first_device
+ 756 0244 9091 0000 		lds r25,(sum_first_device)+1
+ 757 0248 0E94 0000 		call UART_SendString
+ 758               	.LM150:
+ 759 024c 8091 0000 		lds r24,sum_second_device
+ 760 0250 9091 0000 		lds r25,(sum_second_device)+1
+ 761 0254 0E94 0000 		call UART_SendString
+ 762               	.L92:
+ 763               	.LBB114:
+ 764               	.LBB115:
+ 765               	.LM151:
+ 766 0258 5D9B      		sbis 43-32,5
+ 767 025a 00C0      		rjmp .L92
+ 768               	.LM152:
+ 769 025c 8FEF      		ldi r24,lo8(-1)
+ 770 025e 8CB9      		out 44-32,r24
+ 771               	.L93:
+ 772               	.LBE115:
+ 773               	.LBE114:
+ 774               	.LBB116:
+ 775               	.LBB117:
+ 776               	.LM153:
+ 777 0260 5D9B      		sbis 43-32,5
+ 778 0262 00C0      		rjmp .L93
+ 779               	.LM154:
+ 780 0264 8AE0      		ldi r24,lo8(10)
+ 781 0266 8CB9      		out 44-32,r24
+ 782               	.L94:
+ 783 0268 00C0      		rjmp .L94
+ 784               	.LBE117:
+ 785               	.LBE116:
+ 786               	.LFE21:
+ 788               	.global	sum_first_device
+ 789               	.global	sum_first_device
+ 790               		.section .bss
+ 793               	sum_first_device:
+ 794 0000 0000      		.skip 2,0
+ 795               	.global	sum_second_device
+ 796               	.global	sum_second_device
+ 799               	sum_second_device:
+ 800 0002 0000      		.skip 2,0
+ 801               		.comm count1,1,1
+ 802               		.comm count2,1,1
+ 803               		.comm count3,1,1
+ 804               		.comm count1_s,1,1
+ 805               		.comm count2_s,1,1
+ 806               		.comm count3_s,1,1
+ 943               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:2      *ABS*:0000003f __SREG__
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:3      *ABS*:0000003e __SP_H__
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:4      *ABS*:0000003d __SP_L__
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:5      *ABS*:00000034 __CCP__
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:18     .text:00000000 UART_init
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:43     .text:00000014 SPI_Init_Master
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:67     .text:00000026 SPI_Write_Master
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:90     .text:00000030 SPI_Read_Master
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:111    .text:0000003c UART_TxChar
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:130    .text:00000044 Chose_Channel
+                            *COM*:00000001 count1
+                            *COM*:00000001 count2
+                            *COM*:00000001 count3
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:234    .text:000000b6 change_byte
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:249    .text:000000ba UART_SendString
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:295    .text:000000d0 FirstDeviceEnable
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:309    .text:000000d4 SecondDeviceEnable
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:323    .text:000000d8 FirstDeviceDisable
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:337    .text:000000dc SecondDeviceDisable
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:351    .text:000000e0 SendFirstData
+                            *COM*:00000001 count2_s
+                            *COM*:00000001 count3_s
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:793    .bss:00000000 sum_first_device
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:518    .text:00000172 SendSecondData
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:799    .bss:00000002 sum_second_device
+C:\Users\aleks\AppData\Local\Temp/ccqKxkps.s:685    .text:00000204 main
+                            *COM*:00000001 count1_s
+
+UNDEFINED SYMBOLS
+__do_clear_bss
