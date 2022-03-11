@@ -2,6 +2,8 @@
 #include <avr/eeprom.h>
 #include <avr/iom32.h>	
 #include <util/delay.h>
+#include <avr/sleep.h> 
+#include "lcd.h"
 
 #define F_CPU 8000000UL			/* Define CPU Frequency 8MHz */
 #include <avr/io.h>			/* Include AVR std. library file */
@@ -17,6 +19,8 @@
 
 #define USART_BAUDRATE 9600
 #define BAUD_PRESCALE (((F_CPU / (USART_BAUDRATE * 16UL))) - 1)
+
+
 
 /*CS for transducers*/
 #define INIT_PC0     DDRC |= (1<<PC0)
@@ -257,7 +261,7 @@ int main(){
     
     INIT_PC0;
     INIT_PC7;
-  
+    LCD_Init();			/* Initialization of LCD*/
     STOP_TRANSITION_C0;
     STOP_TRANSITION_C7;
 	
@@ -286,9 +290,13 @@ int main(){
    UART_TxChar(0xFF); // stop bit
    UART_TxChar('\n');
 
+    LCD_String("Hejka ");	/* Write string on 1st line of LCD*/
+	LCD_Command(0xC0);		/* Go to 2nd line*/
+	LCD_String("dzialaj prosze");	/* Write string on 2nd line*/
 
+    while(1);
     
-	while (1);		
+			
 	
     return 0; 
 
