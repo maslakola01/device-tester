@@ -2,14 +2,18 @@
 #include <avr/eeprom.h>
 #include <avr/iom32.h>	
 #include <util/delay.h>
-#include <avr/sleep.h> 
+#include <avr/sleep.h>
+
 #include "lcd.h"
+
+
 
 #define F_CPU 8000000UL			/* Define CPU Frequency 8MHz */
 #include <avr/io.h>			/* Include AVR std. library file */
 #include <stdio.h>			/* Include Std. i/p o/p file */
 #include <string.h>			/* Include String header file */
-	
+
+
 #define MOSI 5								/* Define SPI bus pins */
 #define MISO 6
 #define SCK 7
@@ -39,7 +43,16 @@ volatile uint16_t sum_first_device = 0; // sum 0-8
 volatile uint16_t sum_second_device = 0; //sum 8-16
 
 
+ISR(INT0_vect){
 
+    //guzik  pierwszy - potwierdzenie lvlu
+
+}
+ISR(INT1_vect){
+
+    //guzik drugi
+
+}
 
 void UART_init()
 {
@@ -87,6 +100,12 @@ void UART_TxChar(uint8_t ch)
 {
 	while (! (UCSRA & (1<<UDRE)));	/* Wait for empty transmit buffer*/
 	UDR = ch ;
+}
+
+unsigned char UART_RxChar()
+{
+	while ((UCSRA & (1 << RXC)) == 0);/* Wait till data is received */
+	return(UDR);			/* Return the byte*/
 }
 
 
@@ -189,8 +208,6 @@ void SendFirstData(){
     uint16_t sum1=0; 
     uint16_t sum2=0;
 
-
-
        for(int k=0; k<8; k++){
 
         Chose_Channel(k);
@@ -223,13 +240,10 @@ void SendSecondData(){
     uint16_t sum1=0; 
     uint16_t sum2=0;
 
-  
 
        for(int k=0; k<8; k++){
 
         Chose_Channel(k);
-        
-
         SecondDeviceEnable();
 
         SPI_Write_Master(count1);
@@ -252,19 +266,63 @@ void SendSecondData(){
 
     sum_second_device = sum2 + sum1*256;
    
-  
 }
 
 
-int main(){
+char askLevel(int lvl){
 
-    
+    switch(lvl)
+    {
+        case 1:
+         return '1';
+
+        case 2:
+         return '2';
+
+        case 3:
+         return '3'; 
+
+        case 4:
+         return '4';
+
+        case 5:
+         return '5';
+
+        case 6: 
+         return '6';
+
+        case 7:
+         return '7';
+
+        case 8:
+         return '8';
+
+        case 9:
+         return '9';
+
+        case 10:
+         return '10';
+    }
+}
+
+
+
+int main(int arc, char *argv[]){
+
+
+
+
     INIT_PC0;
     INIT_PC7;
     LCD_Init();			/* Initialization of LCD*/
     STOP_TRANSITION_C0;
     STOP_TRANSITION_C7;
-	
+
+    /*generacja przerwan - guziki*/
+	MCUCR |= ((1<<ISC01) | (1<<ISC11)); //sposob generacji przerwania
+    MCUCSR |=(1<<ISC2);
+    GICR |=((1<<INT0) | (1<<INT1) | (1<<INT2));
+
 
 	UART_init();
     SPI_Init_Master();
@@ -278,26 +336,36 @@ int main(){
  
     SendFirstData();
 
-    STOP_TRANSITION_C0;
-    STOP_TRANSITION_C7;
+   STOP_TRANSITION_C0;
+   STOP_TRANSITION_C7;
 
    SendSecondData();
 
    UART_SendString(sum_first_device); 
    UART_SendString(sum_second_device);
 
-    
    UART_TxChar(0xFF); // stop bit
-   UART_TxChar('\n');
+   UART_TxChar('\n');    
 
-    LCD_String("Hejka ");	/* Write string on 1st line of LCD*/
-	LCD_Command(0xC0);		/* Go to 2nd line*/
-	LCD_String("dzialaj prosze");	/* Write string on 2nd line*/
 
-    while(1);
+
+       if(UART_RxChar()){
+                
+            LCD_String("  Connected to " );	/* Write string on 1st line of LCD*/
+            LCD_Command(0xC0);		/* Go to 2nd line*/
+            LCD_String("     device");	/* Write string on 2nd line*/
+        }
+        else {
+
+            LCD_String("hej" );
+        }
     
-			
-	
+    while(1){
+
+     
+    }
+
+
     return 0; 
 
 }
