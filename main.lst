@@ -1214,225 +1214,324 @@
  1268               	.LFE30:
  1270               		.data
  1271               	.LC0:
- 1272 0000 2020 436F 		.string	"  Connected to "
- 1272      6E6E 6563 
- 1272      7465 6420 
- 1272      746F 2000 
+ 1272 0000 2564 00   		.string	"%d"
  1273               	.LC1:
- 1274 0010 2020 2020 		.string	"     device"
- 1274      2064 6576 
- 1274      6963 6500 
+ 1274 0003 2020 436F 		.string	"  Connected to "
+ 1274      6E6E 6563 
+ 1274      7465 6420 
+ 1274      746F 2000 
  1275               	.LC2:
- 1276 001c 6865 6A00 		.string	"hej"
- 1277               		.text
- 1278               	.global	main
- 1280               	main:
- 1281               	.LFB31:
- 1282               	.LM201:
- 1283               	.LVL104:
- 1284               	/* prologue: function */
- 1285               	/* frame size = 0 */
- 1286               	.LM202:
- 1287 03c2 A09A      		sbi 52-32,0
- 1288               	.LM203:
- 1289 03c4 A79A      		sbi 52-32,7
- 1290               	.LM204:
- 1291 03c6 0E94 0000 		call LCD_Init
- 1292               	.LVL105:
- 1293               	.LM205:
- 1294 03ca A89A      		sbi 53-32,0
- 1295               	.LM206:
- 1296 03cc AF9A      		sbi 53-32,7
- 1297               	.LM207:
- 1298 03ce 85B7      		in r24,85-32
- 1299 03d0 8A60      		ori r24,lo8(10)
- 1300 03d2 85BF      		out 85-32,r24
- 1301               	.LM208:
- 1302 03d4 84B7      		in r24,84-32
- 1303 03d6 8064      		ori r24,lo8(64)
- 1304 03d8 84BF      		out 84-32,r24
- 1305               	.LM209:
- 1306 03da 8BB7      		in r24,91-32
- 1307 03dc 806E      		ori r24,lo8(-32)
- 1308 03de 8BBF      		out 91-32,r24
- 1309               	.LM210:
- 1310 03e0 0E94 0000 		call UART_init
- 1311               	.LM211:
- 1312 03e4 0E94 0000 		call SPI_Init_Master
- 1313               	.L134:
- 1314               	.LBB258:
- 1315               	.LBB259:
- 1316               	.LM212:
- 1317 03e8 5D9B      		sbis 43-32,5
- 1318 03ea 00C0      		rjmp .L134
- 1319               	.LM213:
- 1320 03ec 8FEF      		ldi r24,lo8(-1)
- 1321 03ee 8CB9      		out 44-32,r24
- 1322               	.L135:
- 1323               	.LBE259:
- 1324               	.LBE258:
- 1325               	.LBB260:
- 1326               	.LBB261:
- 1327               	.LM214:
- 1328 03f0 5D9B      		sbis 43-32,5
- 1329 03f2 00C0      		rjmp .L135
- 1330               	.LM215:
- 1331 03f4 8AE0      		ldi r24,lo8(10)
- 1332 03f6 8CB9      		out 44-32,r24
- 1333               	.L136:
- 1334               	.LBE261:
- 1335               	.LBE260:
- 1336               	.LBB262:
- 1337               	.LBB263:
- 1338               	.LM216:
- 1339 03f8 5D9B      		sbis 43-32,5
- 1340 03fa 00C0      		rjmp .L136
- 1341               	.LM217:
- 1342 03fc 80E1      		ldi r24,lo8(16)
- 1343 03fe 8CB9      		out 44-32,r24
- 1344               	.L137:
- 1345               	.LBE263:
- 1346               	.LBE262:
- 1347               	.LBB264:
- 1348               	.LBB265:
- 1349               	.LM218:
- 1350 0400 5D9B      		sbis 43-32,5
- 1351 0402 00C0      		rjmp .L137
- 1352               	.LM219:
- 1353 0404 8AE0      		ldi r24,lo8(10)
- 1354 0406 8CB9      		out 44-32,r24
- 1355               	.LBE265:
- 1356               	.LBE264:
- 1357               	.LM220:
- 1358 0408 0E94 0000 		call SendFirstData
- 1359               	.LM221:
- 1360 040c A89A      		sbi 53-32,0
- 1361               	.LM222:
- 1362 040e AF9A      		sbi 53-32,7
- 1363               	.LM223:
- 1364 0410 0E94 0000 		call SendSecondData
- 1365               	.LM224:
- 1366 0414 8091 0000 		lds r24,sum_first_device
- 1367 0418 9091 0000 		lds r25,(sum_first_device)+1
- 1368 041c 0E94 0000 		call UART_SendString
- 1369               	.LM225:
- 1370 0420 8091 0000 		lds r24,sum_second_device
- 1371 0424 9091 0000 		lds r25,(sum_second_device)+1
- 1372 0428 0E94 0000 		call UART_SendString
- 1373               	.L138:
- 1374               	.LBB266:
- 1375               	.LBB267:
- 1376               	.LM226:
- 1377 042c 5D9B      		sbis 43-32,5
- 1378 042e 00C0      		rjmp .L138
- 1379               	.LM227:
- 1380 0430 8FEF      		ldi r24,lo8(-1)
- 1381 0432 8CB9      		out 44-32,r24
- 1382               	.L139:
- 1383               	.LBE267:
- 1384               	.LBE266:
- 1385               	.LBB268:
- 1386               	.LBB269:
- 1387               	.LM228:
- 1388 0434 5D9B      		sbis 43-32,5
- 1389 0436 00C0      		rjmp .L139
- 1390               	.LM229:
- 1391 0438 8AE0      		ldi r24,lo8(10)
- 1392 043a 8CB9      		out 44-32,r24
- 1393               	.L140:
- 1394               	.LBE269:
- 1395               	.LBE268:
- 1396               	.LBB270:
- 1397               	.LBB271:
- 1398               	.LM230:
- 1399 043c 5F9B      		sbis 43-32,7
- 1400 043e 00C0      		rjmp .L140
- 1401               	.LM231:
- 1402 0440 8CB1      		in r24,44-32
- 1403               	.LBE271:
- 1404               	.LBE270:
- 1405               	.LM232:
- 1406 0442 8823      		tst r24
- 1407 0444 01F0      		breq .L141
- 1408               	.LM233:
- 1409 0446 80E0      		ldi r24,lo8(.LC0)
- 1410 0448 90E0      		ldi r25,hi8(.LC0)
- 1411 044a 0E94 0000 		call LCD_String
- 1412               	.LM234:
- 1413 044e 80EC      		ldi r24,lo8(-64)
- 1414 0450 0E94 0000 		call LCD_Command
- 1415               	.LM235:
- 1416 0454 80E0      		ldi r24,lo8(.LC1)
- 1417 0456 90E0      		ldi r25,hi8(.LC1)
- 1418 0458 0E94 0000 		call LCD_String
- 1419 045c 00C0      		rjmp .L142
- 1420               	.L141:
- 1421               	.LM236:
- 1422 045e 80E0      		ldi r24,lo8(.LC2)
- 1423 0460 90E0      		ldi r25,hi8(.LC2)
- 1424 0462 0E94 0000 		call LCD_String
- 1425               	.L142:
- 1426               	.L151:
- 1427 0466 00C0      		rjmp .L151
- 1428               	.LFE31:
- 1430               	.global	sum_first_device
- 1431               	.global	sum_first_device
- 1432               		.section .bss
- 1435               	sum_first_device:
- 1436 0000 0000      		.skip 2,0
- 1437               	.global	sum_second_device
- 1438               	.global	sum_second_device
- 1441               	sum_second_device:
- 1442 0002 0000      		.skip 2,0
- 1443               		.comm count1,1,1
- 1444               		.comm count2,1,1
- 1445               		.comm count3,1,1
- 1446               		.comm count1_s,1,1
- 1447               		.comm count2_s,1,1
- 1448               		.comm count3_s,1,1
- 1665               	.Letext0:
+ 1276 0013 2020 2020 		.string	"     device"
+ 1276      2064 6576 
+ 1276      6963 6500 
+ 1277               	.LC3:
+ 1278 001f 2020 5570 		.string	"  Upload to "
+ 1278      6C6F 6164 
+ 1278      2074 6F20 
+ 1278      00
+ 1279               	.LC4:
+ 1280 002c 2057 6169 		.string	" Waiting "
+ 1280      7469 6E67 
+ 1280      2000 
+ 1281               	.LC5:
+ 1282 0036 2066 6F72 		.string	" for device"
+ 1282      2064 6576 
+ 1282      6963 6500 
+ 1283               		.text
+ 1284               	.global	main
+ 1286               	main:
+ 1287               	.LFB31:
+ 1288               	.LM201:
+ 1289               	.LVL104:
+ 1290 03c2 EF92      		push r14
+ 1291 03c4 FF92      		push r15
+ 1292 03c6 0F93      		push r16
+ 1293 03c8 1F93      		push r17
+ 1294 03ca DF93      		push r29
+ 1295 03cc CF93      		push r28
+ 1296 03ce CDB7      		in r28,__SP_L__
+ 1297 03d0 DEB7      		in r29,__SP_H__
+ 1298 03d2 2897      		sbiw r28,8
+ 1299 03d4 0FB6      		in __tmp_reg__,__SREG__
+ 1300 03d6 F894      		cli
+ 1301 03d8 DEBF      		out __SP_H__,r29
+ 1302 03da 0FBE      		out __SREG__,__tmp_reg__
+ 1303 03dc CDBF      		out __SP_L__,r28
+ 1304               	/* prologue: function */
+ 1305               	/* frame size = 8 */
+ 1306               	.LM202:
+ 1307 03de A09A      		sbi 52-32,0
+ 1308               	.LM203:
+ 1309 03e0 A79A      		sbi 52-32,7
+ 1310               	.LM204:
+ 1311 03e2 0E94 0000 		call LCD_Init
+ 1312               	.LVL105:
+ 1313               	.LM205:
+ 1314 03e6 A89A      		sbi 53-32,0
+ 1315               	.LM206:
+ 1316 03e8 AF9A      		sbi 53-32,7
+ 1317               	.LM207:
+ 1318 03ea 85B7      		in r24,85-32
+ 1319 03ec 8A60      		ori r24,lo8(10)
+ 1320 03ee 85BF      		out 85-32,r24
+ 1321               	.LM208:
+ 1322 03f0 84B7      		in r24,84-32
+ 1323 03f2 8064      		ori r24,lo8(64)
+ 1324 03f4 84BF      		out 84-32,r24
+ 1325               	.LM209:
+ 1326 03f6 8BB7      		in r24,91-32
+ 1327 03f8 806E      		ori r24,lo8(-32)
+ 1328 03fa 8BBF      		out 91-32,r24
+ 1329               	.LM210:
+ 1330 03fc 0E94 0000 		call UART_init
+ 1331               	.LM211:
+ 1332 0400 0E94 0000 		call SPI_Init_Master
+ 1333               	.L134:
+ 1334               	.LBB258:
+ 1335               	.LBB259:
+ 1336               	.LM212:
+ 1337 0404 5D9B      		sbis 43-32,5
+ 1338 0406 00C0      		rjmp .L134
+ 1339               	.LM213:
+ 1340 0408 8FEF      		ldi r24,lo8(-1)
+ 1341 040a 8CB9      		out 44-32,r24
+ 1342               	.L135:
+ 1343               	.LBE259:
+ 1344               	.LBE258:
+ 1345               	.LBB260:
+ 1346               	.LBB261:
+ 1347               	.LM214:
+ 1348 040c 5D9B      		sbis 43-32,5
+ 1349 040e 00C0      		rjmp .L135
+ 1350               	.LM215:
+ 1351 0410 8AE0      		ldi r24,lo8(10)
+ 1352 0412 8CB9      		out 44-32,r24
+ 1353               	.L136:
+ 1354               	.LBE261:
+ 1355               	.LBE260:
+ 1356               	.LBB262:
+ 1357               	.LBB263:
+ 1358               	.LM216:
+ 1359 0414 5D9B      		sbis 43-32,5
+ 1360 0416 00C0      		rjmp .L136
+ 1361               	.LM217:
+ 1362 0418 80E1      		ldi r24,lo8(16)
+ 1363 041a 8CB9      		out 44-32,r24
+ 1364               	.L137:
+ 1365               	.LBE263:
+ 1366               	.LBE262:
+ 1367               	.LBB264:
+ 1368               	.LBB265:
+ 1369               	.LM218:
+ 1370 041c 5D9B      		sbis 43-32,5
+ 1371 041e 00C0      		rjmp .L137
+ 1372               	.LM219:
+ 1373 0420 8AE0      		ldi r24,lo8(10)
+ 1374 0422 8CB9      		out 44-32,r24
+ 1375               	.LBE265:
+ 1376               	.LBE264:
+ 1377               	.LM220:
+ 1378 0424 0E94 0000 		call SendFirstData
+ 1379               	.LM221:
+ 1380 0428 A89A      		sbi 53-32,0
+ 1381               	.LM222:
+ 1382 042a AF9A      		sbi 53-32,7
+ 1383               	.LM223:
+ 1384 042c 0E94 0000 		call SendSecondData
+ 1385               	.LM224:
+ 1386 0430 8091 0000 		lds r24,sum_first_device
+ 1387 0434 9091 0000 		lds r25,(sum_first_device)+1
+ 1388 0438 0E94 0000 		call UART_SendString
+ 1389               	.LM225:
+ 1390 043c 8091 0000 		lds r24,sum_second_device
+ 1391 0440 9091 0000 		lds r25,(sum_second_device)+1
+ 1392 0444 0E94 0000 		call UART_SendString
+ 1393               	.L138:
+ 1394               	.LBB266:
+ 1395               	.LBB267:
+ 1396               	.LM226:
+ 1397 0448 5D9B      		sbis 43-32,5
+ 1398 044a 00C0      		rjmp .L138
+ 1399               	.LM227:
+ 1400 044c 8FEF      		ldi r24,lo8(-1)
+ 1401 044e 8CB9      		out 44-32,r24
+ 1402               	.L139:
+ 1403               	.LBE267:
+ 1404               	.LBE266:
+ 1405               	.LBB268:
+ 1406               	.LBB269:
+ 1407               	.LM228:
+ 1408 0450 5D9B      		sbis 43-32,5
+ 1409 0452 00C0      		rjmp .L139
+ 1410               	.LM229:
+ 1411 0454 8AE0      		ldi r24,lo8(10)
+ 1412 0456 8CB9      		out 44-32,r24
+ 1413               	.L140:
+ 1414               	.LBE269:
+ 1415               	.LBE268:
+ 1416               	.LBB270:
+ 1417               	.LBB271:
+ 1418               	.LM230:
+ 1419 0458 5F9B      		sbis 43-32,7
+ 1420 045a 00C0      		rjmp .L140
+ 1421               	.LM231:
+ 1422 045c 8CB1      		in r24,44-32
+ 1423               	.LBE271:
+ 1424               	.LBE270:
+ 1425               	.LM232:
+ 1426 045e E82E      		mov r14,r24
+ 1427               	.LVL106:
+ 1428 0460 FF24      		clr r15
+ 1429               	.LVL107:
+ 1430               	.LM233:
+ 1431 0462 00D0      		rcall .
+ 1432 0464 00D0      		rcall .
+ 1433 0466 00D0      		rcall .
+ 1434 0468 EDB7      		in r30,__SP_L__
+ 1435 046a FEB7      		in r31,__SP_H__
+ 1436 046c 3196      		adiw r30,1
+ 1437 046e 8E01      		movw r16,r28
+ 1438 0470 0F5F      		subi r16,lo8(-(1))
+ 1439 0472 1F4F      		sbci r17,hi8(-(1))
+ 1440 0474 ADB7      		in r26,__SP_L__
+ 1441 0476 BEB7      		in r27,__SP_H__
+ 1442 0478 1296      		adiw r26,1+1
+ 1443 047a 1C93      		st X,r17
+ 1444 047c 0E93      		st -X,r16
+ 1445 047e 1197      		sbiw r26,1
+ 1446 0480 80E0      		ldi r24,lo8(.LC0)
+ 1447 0482 90E0      		ldi r25,hi8(.LC0)
+ 1448 0484 9383      		std Z+3,r25
+ 1449 0486 8283      		std Z+2,r24
+ 1450 0488 F582      		std Z+5,r15
+ 1451 048a E482      		std Z+4,r14
+ 1452 048c 0E94 0000 		call sprintf
+ 1453               	.LM234:
+ 1454 0490 8DB7      		in r24,__SP_L__
+ 1455 0492 9EB7      		in r25,__SP_H__
+ 1456 0494 0696      		adiw r24,6
+ 1457 0496 0FB6      		in __tmp_reg__,__SREG__
+ 1458 0498 F894      		cli
+ 1459 049a 9EBF      		out __SP_H__,r25
+ 1460 049c 0FBE      		out __SREG__,__tmp_reg__
+ 1461 049e 8DBF      		out __SP_L__,r24
+ 1462 04a0 C801      		movw r24,r16
+ 1463 04a2 0E94 0000 		call LCD_String
+ 1464               	.LM235:
+ 1465 04a6 90E3      		ldi r25,lo8(48)
+ 1466 04a8 E916      		cp r14,r25
+ 1467 04aa F104      		cpc r15,__zero_reg__
+ 1468 04ac 01F4      		brne .L141
+ 1469               	.LM236:
+ 1470 04ae 80E0      		ldi r24,lo8(.LC1)
+ 1471 04b0 90E0      		ldi r25,hi8(.LC1)
+ 1472 04b2 0E94 0000 		call LCD_String
+ 1473               	.LM237:
+ 1474 04b6 80EC      		ldi r24,lo8(-64)
+ 1475 04b8 0E94 0000 		call LCD_Command
+ 1476               	.LM238:
+ 1477 04bc 80E0      		ldi r24,lo8(.LC2)
+ 1478 04be 90E0      		ldi r25,hi8(.LC2)
+ 1479 04c0 0E94 0000 		call LCD_String
+ 1480 04c4 00C0      		rjmp .L142
+ 1481               	.L141:
+ 1482               	.LM239:
+ 1483 04c6 A1E3      		ldi r26,lo8(49)
+ 1484 04c8 EA16      		cp r14,r26
+ 1485 04ca F104      		cpc r15,__zero_reg__
+ 1486 04cc 01F4      		brne .L143
+ 1487               	.LM240:
+ 1488 04ce 80E0      		ldi r24,lo8(.LC3)
+ 1489 04d0 90E0      		ldi r25,hi8(.LC3)
+ 1490 04d2 0E94 0000 		call LCD_String
+ 1491               	.LM241:
+ 1492 04d6 80EC      		ldi r24,lo8(-64)
+ 1493 04d8 0E94 0000 		call LCD_Command
+ 1494               	.LM242:
+ 1495 04dc 80E0      		ldi r24,lo8(.LC2)
+ 1496 04de 90E0      		ldi r25,hi8(.LC2)
+ 1497 04e0 0E94 0000 		call LCD_String
+ 1498 04e4 00C0      		rjmp .L142
+ 1499               	.L143:
+ 1500               	.LM243:
+ 1501 04e6 B2E3      		ldi r27,lo8(50)
+ 1502 04e8 EB16      		cp r14,r27
+ 1503 04ea F104      		cpc r15,__zero_reg__
+ 1504 04ec 01F4      		brne .L142
+ 1505               	.LM244:
+ 1506 04ee 80E0      		ldi r24,lo8(.LC4)
+ 1507 04f0 90E0      		ldi r25,hi8(.LC4)
+ 1508 04f2 0E94 0000 		call LCD_String
+ 1509               	.LM245:
+ 1510 04f6 80EC      		ldi r24,lo8(-64)
+ 1511 04f8 0E94 0000 		call LCD_Command
+ 1512               	.LM246:
+ 1513 04fc 80E0      		ldi r24,lo8(.LC5)
+ 1514 04fe 90E0      		ldi r25,hi8(.LC5)
+ 1515 0500 0E94 0000 		call LCD_String
+ 1516               	.L142:
+ 1517               	.L152:
+ 1518 0504 00C0      		rjmp .L152
+ 1519               	.LFE31:
+ 1521               	.global	sum_first_device
+ 1522               	.global	sum_first_device
+ 1523               		.section .bss
+ 1526               	sum_first_device:
+ 1527 0000 0000      		.skip 2,0
+ 1528               	.global	sum_second_device
+ 1529               	.global	sum_second_device
+ 1532               	sum_second_device:
+ 1533 0002 0000      		.skip 2,0
+ 1534               		.comm count1,1,1
+ 1535               		.comm count2,1,1
+ 1536               		.comm count3,1,1
+ 1537               		.comm count1_s,1,1
+ 1538               		.comm count2_s,1,1
+ 1539               		.comm count3_s,1,1
+ 1756               	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:2      *ABS*:0000003f __SREG__
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:3      *ABS*:0000003e __SP_H__
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:4      *ABS*:0000003d __SP_L__
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:5      *ABS*:00000034 __CCP__
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:6      *ABS*:00000000 __tmp_reg__
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:7      *ABS*:00000001 __zero_reg__
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:18     .text:00000000 LCD_Command
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:131    .text:00000040 LCD_Char
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:244    .text:00000080 LCD_Init
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:311    .text:000000b4 LCD_String
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:340    .text:000000cc LCD_String_xy
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:394    .text:00000100 LCD_Clear
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:431    .text:00000116 __vector_1
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:452    .text:0000012a __vector_2
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:473    .text:0000013e UART_init
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:498    .text:00000152 SPI_Init_Master
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:522    .text:00000164 SPI_Write_Master
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:545    .text:0000016e SPI_Read_Master
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:566    .text:0000017a UART_TxChar
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:585    .text:00000182 UART_RxChar
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:603    .text:0000018a Chose_Channel
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:2      *ABS*:0000003f __SREG__
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:3      *ABS*:0000003e __SP_H__
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:4      *ABS*:0000003d __SP_L__
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:5      *ABS*:00000034 __CCP__
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:18     .text:00000000 LCD_Command
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:131    .text:00000040 LCD_Char
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:244    .text:00000080 LCD_Init
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:311    .text:000000b4 LCD_String
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:340    .text:000000cc LCD_String_xy
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:394    .text:00000100 LCD_Clear
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:431    .text:00000116 __vector_1
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:452    .text:0000012a __vector_2
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:473    .text:0000013e UART_init
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:498    .text:00000152 SPI_Init_Master
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:522    .text:00000164 SPI_Write_Master
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:545    .text:0000016e SPI_Read_Master
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:566    .text:0000017a UART_TxChar
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:585    .text:00000182 UART_RxChar
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:603    .text:0000018a Chose_Channel
                             *COM*:00000001 count1
                             *COM*:00000001 count2
                             *COM*:00000001 count3
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:707    .text:000001fc change_byte
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:722    .text:00000200 UART_SendString
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:768    .text:00000216 FirstDeviceEnable
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:782    .text:0000021a SecondDeviceEnable
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:796    .text:0000021e FirstDeviceDisable
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:810    .text:00000222 SecondDeviceDisable
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:824    .text:00000226 SendFirstData
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:707    .text:000001fc change_byte
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:722    .text:00000200 UART_SendString
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:768    .text:00000216 FirstDeviceEnable
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:782    .text:0000021a SecondDeviceEnable
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:796    .text:0000021e FirstDeviceDisable
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:810    .text:00000222 SecondDeviceDisable
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:824    .text:00000226 SendFirstData
                             *COM*:00000001 count2_s
                             *COM*:00000001 count3_s
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:1435   .bss:00000000 sum_first_device
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:991    .text:000002b8 SendSecondData
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:1441   .bss:00000002 sum_second_device
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:1158   .text:0000034a askLevel
-C:\Users\aleks\AppData\Local\Temp/ccKAhPE6.s:1280   .text:000003c2 main
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:1526   .bss:00000000 sum_first_device
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:991    .text:000002b8 SendSecondData
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:1532   .bss:00000002 sum_second_device
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:1158   .text:0000034a askLevel
+C:\Users\aleks\AppData\Local\Temp/ccf6rXAH.s:1286   .text:000003c2 main
                             *COM*:00000001 count1_s
 
 UNDEFINED SYMBOLS
+sprintf
 __do_copy_data
 __do_clear_bss

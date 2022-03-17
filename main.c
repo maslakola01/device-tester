@@ -347,24 +347,35 @@ int main(int arc, char *argv[]){
    UART_TxChar(0xFF); // stop bit
    UART_TxChar('\n');    
 
+    int c = UART_RxChar();
+    char buffer[8];
+    sprintf(buffer, "%d", c);
 
 
-       if(UART_RxChar()){
+    
+
+       if(c==48){
                 
             LCD_String("  Connected to " );	/* Write string on 1st line of LCD*/
             LCD_Command(0xC0);		/* Go to 2nd line*/
             LCD_String("     device");	/* Write string on 2nd line*/
-        }
-        else {
-
-            LCD_String("hej" );
-        }
-    
-    while(1){
+        } 
+        if(c==49){
+                
+            LCD_String("  Upload to " );	/* Write string on 1st line of LCD*/
+            LCD_Command(0xC0);		/* Go to 2nd line*/
+            LCD_String("     device");	/* Write string on 2nd line*/
+        } 
+        if(c==50){
+                
+            LCD_String(" Waiting " );	/* Write string on 1st line of LCD*/
+            LCD_Command(0xC0);		/* Go to 2nd line*/
+            LCD_String(" for device");	/* Write string on 2nd line*/
+        } 
 
      
-    }
 
+    while(1);
 
     return 0; 
 
