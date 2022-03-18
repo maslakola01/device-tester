@@ -32,20 +32,20 @@
 #define START_TRANSITION_C7 PORTC &= ~(1<<PC7)
 
 
-#define INIT_SW_A DDRD &= ~(1<<PD2) //wejscie
-#define SW_CONFIG_PULLUP_A PORTD |= (1<<PD2) //wewnetrzny pullup
+#define INIT_SW_A DDRD &= ~(1<<PD2) 
+#define SW_CONFIG_PULLUP_A PORTD |= (1<<PD2) 
 
-#define INIT_SW_B DDRD &= ~(1<<PD3) //wejscie
-#define SW_CONFIG_PULLUP_B PORTD |= (1<<PD3) //wewnetrzny pullup
+#define INIT_SW_B DDRD &= ~(1<<PD3) 
+#define SW_CONFIG_PULLUP_B PORTD |= (1<<PD3) 
 
-#define INIT_SW_C DDRB &= ~(1<<PB2) //wejscie
-#define SW_CONFIG_PULLUP_C PORTB |= (1<<PB2) //wewnetrzny pullup
+#define INIT_SW_C DDRB &= ~(1<<PB2) 
+#define SW_CONFIG_PULLUP_C PORTB |= (1<<PB2) 
 
 uint8_t count1, count2, count3; // master value
 uint8_t count1_s, count2_s, count3_s; 
 volatile uint16_t sum_first_device = 0; // sum 0-8 
 volatile uint16_t sum_second_device = 0; //sum 8-16
-volatile uint8_t channel_i = 1; //choose cgannel
+volatile uint8_t channel_i = 1; //choose channel
 volatile uint8_t channel2;
 volatile uint8_t start_program = 0; 
 volatile uint8_t accept = 0;
@@ -55,7 +55,8 @@ volatile char buffer1[2];
 ISR(INT0_vect){
 
     channel_i++;
-    if(channel_i == 10){
+    if(channel_i == 10)
+    {
         channel_i = 1;
     }
    
@@ -77,15 +78,13 @@ void UART_init()
 	UCSRC |= (1 << URSEL) | (1 << UCSZ0) | (1 << UCSZ1);/* Use 8-bit character sizes */
     UBRRL = BAUD_PRESCALE;		/* Load lower 8-bits of the baud rate value */
 	UBRRH = (BAUD_PRESCALE >> 8);	/* Load upper 8-bits*/
-
 }
 
 
 void SPI_Init_Master()					
 {
-	DDRB |= (1<<MOSI)|(1<<SCK)|(1<<SS);	//  MOSI, SCK, SS jako wyjscie
-			
-	DDRB &= ~(1<<MISO);			// MISO jako wejscie
+	DDRB |= (1<<MOSI)|(1<<SCK)|(1<<SS);	//  MOSI, SCK, SS as input		
+	DDRB &= ~(1<<MISO);			// MISO as output
 						
 	SS_Disable;
 	SPCR |= (1<<SPE)|(1<<MSTR)|(1<<SPR0);	//  Fosc/16
@@ -95,18 +94,18 @@ void SPI_Init_Master()
 char SPI_Write_Master(char data)		/* SPI write data function */
 {
 	uint8_t a;
-	SPDR = data;			/* Skopiowanie danych do przeslania */
-	while(!(SPSR & (1<<SPIF)));	/* Czekanie na koniec transmisji */
+	SPDR = data;			/* Copy data */
+	while(!(SPSR & (1<<SPIF)));	/* Waiting for transmition to end */
     a=SPDR;
-	return a;		/* Skopiowanie danych */
+	return a;		/* send data*/
 }
 
 
 char SPI_Read_Master()				
 {
 	SPDR = 0xFF;
-	while(!(SPSR & (1<<SPIF)));	// czekanie na przyjecie danych
-	return(SPDR);			// zwrocenie otrzymanej danej
+	while(!(SPSR & (1<<SPIF)));	/*Waiting for data*/
+	return(SPDR);			
 }
 
 
@@ -176,9 +175,7 @@ void Chose_Channel(char channel){
             count2 = 0xC0;
             count3 = 0x00;
             break;
-
     }
-
 }
 
 uint8_t change_byte(uint8_t number){
@@ -241,7 +238,7 @@ void SendFirstData(){
         sum2 = sum2 + count3_s; 
           
     }
- 
+
     sum_first_device = sum2 + sum1*256;
 
 }
@@ -253,7 +250,8 @@ void SendSecondData(){
     uint16_t sum2=0;
 
 
-       for(int k=0; k<8; k++){
+    for(int k=0; k<8; k++)
+       {
 
         Chose_Channel(k);
         SecondDeviceEnable();
@@ -265,7 +263,6 @@ void SendSecondData(){
         SecondDeviceDisable();
         
 
-
         num = change_byte(count2_s);
         UART_TxChar(num);
         UART_TxChar(count3_s);
@@ -273,55 +270,16 @@ void SendSecondData(){
 
         sum1 = sum1 + num; 
         sum2 = sum2 + count3_s; 
- 
-    }
 
+    }
     sum_second_device = sum2 + sum1*256;
-   
 }
 
-
-char askLevel(int lvl){
-
-    switch(lvl)
-    {
-        case 1:
-         return '1';
-
-        case 2:
-         return '2';
-
-        case 3:
-         return '3'; 
-
-        case 4:
-         return '4';
-
-        case 5:
-         return '5';
-
-        case 6: 
-         return '6';
-
-        case 7:
-         return '7';
-
-        case 8:
-         return '8';
-
-        case 9:
-         return '9';
-
-        case 10:
-         return '10';
-    }
-}
 
 void lcd_option(int b){
 
     sprintf(buffer1, "%d", channel_i); 
    
-
     switch(b){
         case 48:
             LCD_String("    Hello " );	/* Write string on 1st line of LCD*/
@@ -330,31 +288,29 @@ void lcd_option(int b){
             break; 
 
         case 49:
-            LCD_String(" Waiting for  " );	/* Write string on 1st line of LCD*/
-            LCD_Command(0xC0);		/* Go to 2nd line*/
-            LCD_String("    device...");	/* Write string on 2nd line*/
+            LCD_String(" Waiting for  " );
+            LCD_Command(0xC0);		
+            LCD_String("    device...");	
             break;
 
         case 50:
-            LCD_String("   Device " );	/* Write string on 1st line of LCD*/
-            LCD_Command(0xC0);		/* Go to 2nd line*/
-            LCD_String(" is working ");	/* Write string on 2nd line*/
+            LCD_String("   Device " );	
+            LCD_Command(0xC0);	
+            LCD_String(" is working ");	
             break;
         
         case 51:
-            LCD_String(" Choose lvl:" );	/* Write string on 1st line of LCD*/
-            LCD_Command(0xC0);		/* Go to 2nd line*/
-            LCD_String(buffer1);	/* Write string on 2nd line*/
+            LCD_String(" Choose lvl:" );	
+            LCD_Command(0xC0);		
+            LCD_String(buffer1);	
             break;
 
         case 52: 
-            LCD_String("You chose lvl:" );	/* Write string on 1st line of LCD*/
-            LCD_Command(0xC0);		/* Go to 2nd line*/
-            LCD_String(buffer1);	/* Write string on 2nd line*/
+            LCD_String("You chose lvl:" );	
+            LCD_Command(0xC0);		
+            LCD_String(buffer1);	
             break;
-
     }
-
 }
 
 
@@ -365,32 +321,31 @@ int main(){
     INIT_SW_A;
     INIT_SW_B;
     INIT_SW_C;
-    LCD_Init();			/* Initialization of LCD*/
+  		
     STOP_TRANSITION_C0;
     STOP_TRANSITION_C7;
     SW_CONFIG_PULLUP_A;
     SW_CONFIG_PULLUP_B;
     SW_CONFIG_PULLUP_C;
 
+    LCD_Init();	
 
     /*generacja przerwan - guziki*/
 	MCUCR |= ((1<<ISC01) | (1<<ISC11)); //sposob generacji przerwania
     MCUCSR |=(1<<ISC2);
     GICR |=((1<<INT0) | (1<<INT1) | (1<<INT2));
 
-     sei();
-
+    sei();
 
 	UART_init();
     SPI_Init_Master();
 
-    
     UART_TxChar(0xFF); //start bit
     UART_TxChar('\n');
     UART_TxChar(0x10); // number of channels
     UART_TxChar('\n');
 
- 
+
     SendFirstData();
 
    STOP_TRANSITION_C0;
@@ -411,8 +366,6 @@ int main(){
     lcd_option(49); //waiting for device
     _delay_ms(5000);
 
-    //while(start_program == 0);
-
     c = UART_RxChar();
 
     LCD_Clear();
@@ -421,32 +374,18 @@ int main(){
     LCD_Clear();
 
     accept = 0;
-    while(accept == 0){
-          
+    while(accept == 0)
+    {
          lcd_option(51); //choose lvl   
          _delay_ms(100);
          LCD_Clear();
-
     }
-
-
-    lcd_option(51); //choose lvl   
-    _delay_ms(3000);
-   
-    accept = 0;
-    while(accept==0);;
 
     LCD_Clear();
     lcd_option(52); 
-     _delay_ms(3000);
-
-    c = UART_RxChar();
-  
-
+    _delay_ms(3000);
 
     while(1);
-
-    
 
     return 0; 
 
