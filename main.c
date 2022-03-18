@@ -46,10 +46,11 @@ uint8_t count1_s, count2_s, count3_s;
 volatile uint16_t sum_first_device = 0; // sum 0-8 
 volatile uint16_t sum_second_device = 0; //sum 8-16
 volatile uint8_t channel_i = 1; //choose cgannel
+volatile uint8_t channel2;
 volatile uint8_t start_program = 0; 
 volatile uint8_t accept = 0;
 volatile int c = 0; // data from python 
-
+volatile char buffer1[2];
 
 ISR(INT0_vect){
 
@@ -57,6 +58,7 @@ ISR(INT0_vect){
     if(channel_i == 10){
         channel_i = 1;
     }
+   
 }
 
 ISR(INT1_vect){
@@ -317,46 +319,41 @@ char askLevel(int lvl){
 
 void lcd_option(int b){
 
-    char buffer1[2];
-    sprintf(buffer1, "%d", channel_i);    
+    sprintf(buffer1, "%d", channel_i); 
+   
 
+    switch(b){
+        case 48:
+            LCD_String("    Hello " );	/* Write string on 1st line of LCD*/
+            LCD_Command(0xC0);		/* Go to 2nd line*/
+            LCD_String("     user! ");	/* Write string on 2nd line*/
+            break; 
 
-    //0
-    if(b==48){
-                
-        LCD_String("    Hello " );	/* Write string on 1st line of LCD*/
-        LCD_Command(0xC0);		/* Go to 2nd line*/
-        LCD_String("     user! ");	/* Write string on 2nd line*/
-    } 
-    //1
-    if(b==49){
-                
-        LCD_String(" Waiting for  " );	/* Write string on 1st line of LCD*/
-        LCD_Command(0xC0);		/* Go to 2nd line*/
-        LCD_String("    device...");	/* Write string on 2nd line*/
-    } 
-    //2
-    if(b==50){
-                
-        LCD_String("   Device " );	/* Write string on 1st line of LCD*/
-        LCD_Command(0xC0);		/* Go to 2nd line*/
-        LCD_String(" is working ");	/* Write string on 2nd line*/
+        case 49:
+            LCD_String(" Waiting for  " );	/* Write string on 1st line of LCD*/
+            LCD_Command(0xC0);		/* Go to 2nd line*/
+            LCD_String("    device...");	/* Write string on 2nd line*/
+            break;
+
+        case 50:
+            LCD_String("   Device " );	/* Write string on 1st line of LCD*/
+            LCD_Command(0xC0);		/* Go to 2nd line*/
+            LCD_String(" is working ");	/* Write string on 2nd line*/
+            break;
+        
+        case 51:
+            LCD_String(" Choose lvl:" );	/* Write string on 1st line of LCD*/
+            LCD_Command(0xC0);		/* Go to 2nd line*/
+            LCD_String(buffer1);	/* Write string on 2nd line*/
+            break;
+
+        case 52: 
+            LCD_String("You chose lvl:" );	/* Write string on 1st line of LCD*/
+            LCD_Command(0xC0);		/* Go to 2nd line*/
+            LCD_String(buffer1);	/* Write string on 2nd line*/
+            break;
+
     }
-    
-    //3
-    if(b==51){
-         
-        LCD_String(" Choose lvl:" );	/* Write string on 1st line of LCD*/
-        LCD_Command(0xC0);		/* Go to 2nd line*/
-        LCD_String(buffer1);	/* Write string on 2nd line*/
-    } 
-    //4
-    if(b==52){
-             
-        LCD_String("You chose lvl:" );	/* Write string on 1st line of LCD*/
-        LCD_Command(0xC0);		/* Go to 2nd line*/
-        LCD_String(buffer1);	/* Write string on 2nd line*/
-    } 
 
 }
 
@@ -375,13 +372,13 @@ int main(){
     SW_CONFIG_PULLUP_B;
     SW_CONFIG_PULLUP_C;
 
-    sei();
 
-    
     /*generacja przerwan - guziki*/
 	MCUCR |= ((1<<ISC01) | (1<<ISC11)); //sposob generacji przerwania
     MCUCSR |=(1<<ISC2);
     GICR |=((1<<INT0) | (1<<INT1) | (1<<INT2));
+
+     sei();
 
 
 	UART_init();
@@ -423,20 +420,28 @@ int main(){
     _delay_ms(5000);
     LCD_Clear();
 
+    accept = 0;
+    while(accept == 0){
+          
+         lcd_option(51); //choose lvl   
+         _delay_ms(100);
+         LCD_Clear();
+
+    }
+
+
     lcd_option(51); //choose lvl   
     _delay_ms(3000);
-    
-    while(accept == 0){
-        _delay_ms(1000);
-    }
-    
+   
+    accept = 0;
+    while(accept==0);;
+
     LCD_Clear();
     lcd_option(52); 
      _delay_ms(3000);
 
     c = UART_RxChar();
-    char buffer[8];
-    sprintf(buffer, "%d", c);
+  
 
 
     while(1);
