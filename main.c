@@ -55,15 +55,13 @@ volatile char buffer1[2];
 ISR(INT0_vect){
 
     channel_i++;
-    if(channel_i == 10)
+    if(channel_i == 11)
     {
         channel_i = 1;
     }
-   
 }
 
 ISR(INT1_vect){
-
     start_program++;
 }
 
@@ -282,34 +280,43 @@ void lcd_option(int b){
    
     switch(b){
         case 48:
-            LCD_String("    Hello " );	/* Write string on 1st line of LCD*/
+            LCD_String("   Witaj  ");	/* Write string on 1st line of LCD*/
             LCD_Command(0xC0);		/* Go to 2nd line*/
-            LCD_String("     user! ");	/* Write string on 2nd line*/
+            LCD_String("uzytkowniku");	/* Write string on 2nd line*/
             break; 
 
         case 49:
-            LCD_String(" Waiting for  " );
+            LCD_String("Czekanie na" );
             LCD_Command(0xC0);		
-            LCD_String("    device...");	
+            LCD_String("urzadzenie...");	
             break;
 
         case 50:
-            LCD_String("   Device " );	
+            LCD_String("Urzadzenie" );	
             LCD_Command(0xC0);	
-            LCD_String(" is working ");	
+            LCD_String("gotowe");	
             break;
         
         case 51:
-            LCD_String(" Choose lvl:" );	
+            LCD_String("Wybierz lvl:" );	
+            LCD_Command(0xC0);			
+            break;
+
+        case 52: 
+            LCD_String("Wybrany lvl:" );	
             LCD_Command(0xC0);		
             LCD_String(buffer1);	
             break;
 
-        case 52: 
-            LCD_String("You chose lvl:" );	
+        case 53:
+            LCD_String(buffer1); 
+            break;   
+
+        case 54: 
+             LCD_String("Oczekiwanie na");	
             LCD_Command(0xC0);		
-            LCD_String(buffer1);	
-            break;
+            LCD_String("przeslanie");	
+            break;       
     }
 }
 
@@ -339,8 +346,23 @@ int main(){
 
 	UART_init();
     SPI_Init_Master();
+  
+  
+    lcd_option(48); //witaj uzytkowniku
+    _delay_ms(3000);
+    LCD_Clear();
 
-    UART_TxChar(0xFF); //start bit
+    lcd_option(49); //czekanie na urzadzenie
+
+    c = UART_RxChar();
+
+    LCD_Clear();
+    lcd_option(50); //urzadzenie gotowe
+    _delay_ms(3000);
+    LCD_Clear();
+
+    
+   UART_TxChar(0xFF); //start bit
     UART_TxChar('\n');
     UART_TxChar(0x10); // number of channels
     UART_TxChar('\n');
@@ -356,34 +378,35 @@ int main(){
    UART_SendString(sum_first_device); 
    UART_SendString(sum_second_device);
 
-   UART_TxChar(0xFF); // stop bit
-   UART_TxChar('\n');    
-
-    lcd_option(48); //hello user
-    _delay_ms(5000);
-    LCD_Clear();
-
-    lcd_option(49); //waiting for device
-    _delay_ms(5000);
-
-    c = UART_RxChar();
+   UART_TxChar(0xFF); //stop bit
+   UART_TxChar('\n'); 
 
     LCD_Clear();
-    lcd_option(50); //device is working
-    _delay_ms(5000);
+    lcd_option(54); //oczekiwanie na przeslanie
+    _delay_ms(2000);
     LCD_Clear();
+
+
+   
+
+    lcd_option(51); //wybierz lvl 
 
     accept = 0;
     while(accept == 0)
     {
-         lcd_option(51); //choose lvl   
-         _delay_ms(100);
-         LCD_Clear();
+        LCD_Command(0XC0);
+       lcd_option(53); 
+        _delay_ms(30);
+         LCD_Command(0XC0);
+        LCD_String("                    ");   
     }
 
     LCD_Clear();
     lcd_option(52); 
     _delay_ms(3000);
+
+    
+   
 
     while(1);
 

@@ -79,3 +79,4 @@ void LCD_Clear()
 	_delay_ms(2);
 	LCD_Command (0x80);		/* Cursor at home position */
 }
+
